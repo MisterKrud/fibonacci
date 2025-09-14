@@ -1,24 +1,20 @@
 #!/usr/bin/node
 
-const mergeSort = (arr, l) => {
+const mergeSort = (arr) => {
   const len = arr.length;
+
+  //Safety case - if there is nothing in the array return an empty array
   if (len < 1) {
     console.log("Length is 0");
     return [];
   }
 
+  //Base case - return the array if it only has one element
   if (len === 1) {
-    console.log(`Length is one`);
-    const lastSplit = arr[0];
-    console.log(lastSplit);
-    console.log(typeof lastSplit);
-    return lastSplit;
+    return arr;
   }
 
-  
-
-  //console.log(arr);
-
+  //Find the halfway point of the array
   let halfLength;
   if (len % 2 === 0) {
     halfLength = arr.length / 2;
@@ -26,145 +22,40 @@ const mergeSort = (arr, l) => {
     halfLength = (arr.length - 1) / 2;
   }
 
-  console.log(l); //Debugging number left
+  //Create Left & Right array halves
+  const leftArray = arr.slice(0, halfLength);
+  const rightArray = arr.slice(halfLength);
 
+  //Clean arr for future use
+  arr = [];
 
-  //Create Left array
-  const leftArray = arr.splice(0, halfLength);
-  console.log("Left split is:");
-  console.log(leftArray);
+  //Run mergeSort function on left & right arrays
+  let left = mergeSort(leftArray);
+  let right = mergeSort(rightArray);
 
-  //Create Right array
-  const rightArray = arr.splice(0);
-  console.log("Right split is:");
-  console.log(rightArray);
-
-  //Run mergeSort function of Left
-  console.log("Running left array...");
-  console.log("");
-  let left = mergeSort(leftArray, l + 1);
-  if (Array.isArray(left)) left = left.flat()
-  console.log("LEFT");
-  console.log(left);
-//   arr.push(left);
-  // console.log(mergeSort(leftArray,n+1));
-
-  //Run mergeSort on Right
-  console.log("Running right Array");
-  console.log("");
-  let right = mergeSort(rightArray, l + 1);
-  if(Array.isArray(right)) right = right.flat()
-  console.log("RIGHT");
-  console.log(right);
-//   arr.push(right);
-
-
-
-//Group this into a function (recursive??)
-
-    console.log('Regular Loop')
-    console.log('Sort')
-if (left<right) 
-    {
-    arr.push(left);
-     arr.push(right)
-    
+  //Loop through finding smallest first element in each array
+  while (left.length >= 1 && right.length >= 1) {
+    if (left[0] < right[0]) {
+      arr.push(left[0]);
+      left.shift();
     } else {
-        arr.push(right)
-        arr.push(left)
-       
+      arr.push(right[0]);
+      right.shift();
     }
-    console.log(arr)
+  }
 
+  //If an array is empty, push the other array in it's entirety to the new array
+  if (left.length == 0) {
+    arr.push(...right);
+  }
+  if (right.length == 0) {
+    arr.push(...left);
+  }
 
-
-  
-
-  //Repeat this until the length of the new array is zero
-//Just included splicing from left and right arrays
-
-//   if(len >2){
-//     console.log('GREATER THAN TWO')
-//     console.log(arr)
-//     console.log(left)
-//     console.log(right)
-    
-//     const leftElement = left[0]
-//     const rightElement = right[0]
-
-//     while(left.length>0 || right.length>0){
-//         console.log('LENGTHS')
-//         console.log('Left:')
-//         console.log(left.length)
-//         console.log('Right:')
-//         console.log(right.length)
-//     if (leftElement<rightElement) 
-//     {
-//         left.splice(0,1)
-//     arr.push(leftElement);
-   
-    
-//     } else {
-//         right.splice(0,1)
-//         arr.push(leftElement)
-       
-//     }
-//     console.log(arr)
-//     console.log('<<<<<<>>>>>')
-//     return arr
-//   }
-// }
-
-
-    console.log(arr)
-
-    console.log('')
-
-// const result = arr.flat()
-// console.log(result)
-
-  console.log("**Now do something**");
-
-
-//   const leftSide = arr[0]
-//    console.log('Left side')
-//   console.log(leftSide)
- 
-//   const leftResult = leftSide.flat()
-//  console.log(leftResult)
-
-//   const rightSide = arr[1]
-//   const rightResult = rightSide.flat()
-//   console.log('Right side')
-//   console.log(rightSide)
-//   console.log(rightResult)
-
-
-// if (leftResult[0]<rightResult[0]) 
-//     {
-//     arr.push(leftResult[0]);
-//      arr.push(rightResult[0])
-//     } else {
-//         arr.push(rightResult[0])
-//         arr.push(leftResult[0])
-//     }
-
-//     arr.pop()
-//     arr.pop()
-
-//   const newArr = arr.flat()
-//   console.log(newArr);
-
-
-  console.log(`-----DONE------`);
-
- return arr
+  //return the array
+  return arr;
 };
 
 const disorderedArray = [3, 2, 1, 13, 8, 5, 0, 1];
 
-console.log(mergeSort(disorderedArray, 1));
-
-// const splicedArray =  disorderedArray.splice(0,2)
-// console.log(splicedArray);
-// console.log(disorderedArray);
+console.log(mergeSort(disorderedArray));
