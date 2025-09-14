@@ -56,6 +56,8 @@ const mergeSort = (arr) => {
   return arr;
 };
 
-const disorderedArray = [3, 2, 1, 13, 8, 5, 0, 1];
+const evenArray = [3, 2, 1, 13, 8, 5, 0, 1];
+const oddArray = [6, 9, 32, 1, 8, 0, 14, 3, 21];
 
-console.log(mergeSort(disorderedArray));
+console.log(mergeSort(evenArray));
+console.log(mergeSort(oddArray));
